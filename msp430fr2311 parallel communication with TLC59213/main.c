@@ -63,24 +63,24 @@ int main(void)
     P1OUT &= ~(BIT7 | BIT6 | BIT5 | BIT4 | BIT3 | BIT2 | BIT1 | BIT0);                // P1.0...7 low
 
 
-    P2DIR |= BIT7 | BIT6 | BIT5 | BIT4 | BIT3 | BIT2 | BIT1 | BIT0;                  // P2.0 & P2.1 as output
-    P2OUT &= ~(BIT7 | BIT6 | BIT5 | BIT4 | BIT3 | BIT2 | BIT1 | BIT0);               // P2.0 & P2.1 high
+    P2DIR |= BIT7 | BIT6 | BIT5 | BIT4 | BIT3 | BIT2 | BIT1 | BIT0;                  // P2.0...7 as output
+    P2OUT &= ~(BIT7 | BIT6 | BIT5 | BIT4 | BIT3 | BIT2 | BIT1 | BIT0);               // P2.0...7 high
 
 
-    P2DIR &= ~BIT1;                                             // P2.2 as input
-    P2OUT |= BIT1;                                              // Configure P2.2 as pulled-up
-    P2REN |= BIT1;                                              // P2.2 pull-up register enable
-    P2IES |= BIT1;                                              // P2.2 Hi/Low edge
+    P2DIR &= ~BIT1;                                             // P2.1 as input
+    P2OUT |= BIT1;                                              // Configure P2.1 as pulled-up
+    P2REN |= BIT1;                                              // P2.1 pull-up register enable
+    P2IES |= BIT1;                                              // P2.1 Hi/Low edge
     P2IE  |= BIT1;
 
     PM5CTL0 &= ~LOCKLPM5;                                       // Disable the GPIO power-on default high-impedance mode
                                                                 // to activate previously configured port settings
-    P2IFG &= ~BIT1;                                             // P2.2 IFG cleared
+    P2IFG &= ~BIT1;                                             // P2.1 IFG cleared
 
  while (1)
      {
 
-        __bis_SR_register(LPM3_bits | GIE);   // Enter LPM0,enable interrupts
+        __bis_SR_register(LPM3_bits | GIE);                // Enter LPM0,enable interrupts
         __no_operation();                                  // For debug,Remain in LPM0
 
          }
@@ -115,7 +115,7 @@ __interrupt void Port_2(void)
             break;
     }
 
-    P2IFG &= ~BIT1;                                            // Clear P2.2 IFG
+    P2IFG &= ~BIT1;                                            // Clear P2.1 IFG
     __bic_SR_register_on_exit(LPM3_bits);   // Exit LPM3
 }
 
